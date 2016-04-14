@@ -1,7 +1,6 @@
 package director
 
 import (
-	// "fmt"
 	"time"
 )
 
