@@ -1,3 +1,5 @@
+[![godoc here](https://img.shields.io/badge/godoc-here-blue.svg)](http://godoc.org/github.com/relistan/go-director)
+
 Director
 ========
 This package is built to make it easy to write and to test background
@@ -9,8 +11,29 @@ The interface allows routines to be dispatched and run for a set number of
 iterations, or indefinitely. You can also signal them to quit, and block
 waiting for them to complete.
 
-[GoDocs are here](http://godoc.org/github.com/relistan/go-director)
+This is what it looks like:
 
+```go
+func RunForever(looper Looper) error {
+	looper.Loop(func() error {
+		... do some work ...
+		if err != nil {
+			return err
+		}
+	})
+}
+
+looper := NewFreeLooper(FOREVER, make(chan error))
+go RunForever(looper)
+
+err := looper.Wait()
+if err != nil {
+	... handle it ...
+}
+```
+
+Details and Motivation
+----------------------
 The core interface for the package is the `Looper`. Two `Looper`
 implementations are currently included, a `TimedLooper` whichs runs the loop on
 a specified interval, and a `FreeLooper` which runs the loop as quickly as
