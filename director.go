@@ -120,12 +120,14 @@ func (l *TimedLooper) Loop(fn func() error) {
 	}
 
 	ticks := time.Tick(l.Interval)
-	for range ticks {
-		if stop {
-			break
+	for {
+		select {
+		case <-ticks:
+			runIteration()
+		case <-l.quitChan:
+			stopFunc(nil)
+			return
 		}
-
-		runIteration()
 	}
 }
 
