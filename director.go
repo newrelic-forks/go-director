@@ -81,11 +81,8 @@ func (l *TimedLooper) Done(err error) {
 func (l *TimedLooper) Loop(fn func() error) {
 	i := 0
 
-	var stop bool
-
 	stopFunc := func(err error) {
 		l.Done(err)
-		stop = true
 	}
 
 	runIteration := func() {
